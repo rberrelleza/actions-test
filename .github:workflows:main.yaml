@@ -1,0 +1,18 @@
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    
+    - uses: okteto/actions/namespace@9eccbe24564bd3bc335373451fb91445d587b914
+      with:
+        token: ${{ secrets.OKTETO_TOKEN }}
+        namespace: actions-rberrelleza
+        
+    - uses: okteto/actions/deploy@9eccbe24564bd3bc335373451fb91445d587b914
+      with:
+        namespace: actions-rberrelleza
+        manifests: |
+          k8s.yml
