@@ -6,7 +6,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     
-    - uses: okteto/actions/namespace@c19444c2e10cabdfe9140883608fdddb40e99c7c
+    - uses: okteto/actions/update@c19444c2e10cabdfe9140883608fdddb40e99c7c
       with:
         manifests: k8s.yml
         image: okteto/hello-world
