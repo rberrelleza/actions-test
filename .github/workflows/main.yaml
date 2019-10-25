@@ -6,13 +6,19 @@ jobs:
     steps:
     - uses: actions/checkout@master
     
-    - uses: okteto/actions/namespace@b5280d368a2067bede383e502d31d4f9f9c03c30
+    - uses: okteto/actions/namespace@c19444c2e10cabdfe9140883608fdddb40e99c7c
+      with:
+        manifests: k8s.yml
+        image: okteto/hello-world
+        tag: dev
+
+    - uses: okteto/actions/namespace@c19444c2e10cabdfe9140883608fdddb40e99c7c
       with:
         token: ${{ secrets.OKTETO_TOKEN }}
         namespace: actions-rberrelleza
-        
-    - uses: okteto/actions/deploy@b5280d368a2067bede383e502d31d4f9f9c03c30
+
+    - uses: okteto/actions/deploy@c19444c2e10cabdfe9140883608fdddb40e99c7c
       with:
         namespace: actions-rberrelleza
-        manifests: |
-          k8s.yml
+        manifests: k8s.yml
+          
