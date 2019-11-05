@@ -16,5 +16,5 @@ jobs:
         namespace: actions-rberrelleza
         manifests: k8s.yml
         image: okteto/hello-world
-        tag: golang
+        tag: golang1
           
