@@ -6,15 +6,15 @@ jobs:
     steps:
     - uses: actions/checkout@master
     
-    - uses: okteto/actions/namespace@960cd539b0e512e8735582da22e19cde22352da8
+    - uses: okteto/actions/namespace@42f4141db8c2ad3534570aa9f1ebd5b6c39f1d19
       with:
         token: ${{ secrets.OKTETO_TOKEN }}
         namespace: actions-rberrelleza
 
-    - uses: okteto/actions/deploy@960cd539b0e512e8735582da22e19cde22352da8
+    - uses: okteto/actions/deploy@42f4141db8c2ad3534570aa9f1ebd5b6c39f1d19
       with:
         namespace: actions-rberrelleza
         manifests: k8s.yml
         image: okteto/hello-world
-        tag: golang1
+        tag: golang2
           
