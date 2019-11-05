@@ -6,12 +6,12 @@ jobs:
     steps:
     - uses: actions/checkout@master
     
-    - uses: okteto/actions/namespace@33affd0f87f5f86790e00d59e22e09e768de9427
+    - uses: okteto/actions/namespace@f204e23d224362a2eb3e98969e8ac4651805478a
       with:
         token: ${{ secrets.OKTETO_TOKEN }}
         namespace: actions-rberrelleza
 
-    - uses: okteto/actions/deploy@33affd0f87f5f86790e00d59e22e09e768de9427
+    - uses: okteto/actions/deploy@f204e23d224362a2eb3e98969e8ac4651805478a
       with:
         namespace: actions-rberrelleza
         manifests: k8s.yml
