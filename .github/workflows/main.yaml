@@ -6,19 +6,33 @@ jobs:
     steps:
     - uses: actions/checkout@master
     
-    - uses: okteto/actions/update@076d8174cdf5a4948c0e09cfacd02fc6c140b663
-      with:
-        manifests: k8s.yml
-        image: okteto/hello-world
-        tag: golang
+    - uses: actions-hub/docker/login@master
+      env:
+        DOCKER_USERNAME: ramiro
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}  
 
-    - uses: okteto/actions/namespace@076d8174cdf5a4948c0e09cfacd02fc6c140b663
+    - uses: okteto/actions/build@master
+      with:
+        token: ${{ secrets.OKTETO_TOKEN }}
+        tag: ramiro/actions-test:${{ github.sha }}
+
+    - uses: okteto/actions/namespace@master
+      id: namespace
       with:
         token: ${{ secrets.OKTETO_TOKEN }}
         namespace: actions-rberrelleza
-
-    - uses: okteto/actions/deploy@076d8174cdf5a4948c0e09cfacd02fc6c140b663
+    
+    - uses: okteto/actions/deploy@master
+      env:
+        KUBECONFIG: ${{ steps.namespace.outputs.kubeconfig }}  
       with:
         namespace: actions-rberrelleza
-        manifests: k8s.yml
-          
+        manifest: k8s.yml
+        tag: ramiro/actions-test:${{ github.sha }}
+        waitOn: deployment/hello-world
+    
+    - uses: srt32/uptime@master
+      with:
+        url-to-hit: "https://hello-world-actions-rberrelleza.cloud.okteto.net"
+        expected-statuses: "200"
+        
