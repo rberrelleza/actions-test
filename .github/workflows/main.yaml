@@ -4,34 +4,40 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
+    - name: checkout
+      uses: actions/checkout@master
     
-    - uses: actions-hub/docker/login@master
+    - name: Login
+      uses: actions-hub/docker/login@master
       env:
-        DOCKER_USERNAME: ramiro
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}  
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}  
 
-    - uses: okteto/actions/build@master
+    - name: Build
+      uses: okteto/actions/build@master
       with:
         token: ${{ secrets.OKTETO_TOKEN }}
-        tag: ramiro/actions-test:${{ github.sha }}
+        tag: ${{ secrets.DOCKER_USERNAME }}/hello-world:${{ github.sha }}
 
-    - uses: okteto/actions/namespace@master
+    - name: Get Kubeconfig
+      uses: okteto/actions/namespace@master
       id: namespace
       with:
         token: ${{ secrets.OKTETO_TOKEN }}
         namespace: actions-rberrelleza
     
-    - uses: okteto/actions/deploy@master
+    - name: Deploy and Wait
+      uses: okteto/actions/deploy@master
       env:
         KUBECONFIG: ${{ steps.namespace.outputs.kubeconfig }}  
       with:
         namespace: actions-rberrelleza
         manifest: k8s.yml
-        tag: ramiro/actions-test:${{ github.sha }}
+        tag: ${{ secrets.DOCKER_USERNAME }}/hello-world:${{ github.sha }}
         waitOn: deployment/hello-world
     
-    - uses: srt32/uptime@master
+    - name: Verify
+      uses: srt32/uptime@master
       with:
         url-to-hit: "https://hello-world-actions-rberrelleza.cloud.okteto.net"
         expected-statuses: "200"
