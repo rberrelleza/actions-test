@@ -7,33 +7,34 @@ jobs:
     - name: checkout
       uses: actions/checkout@master
     
-    
-    - name: Build
-      uses: okteto/actions/build@master
+    - name: Login
+      uses: okteto/actions/login@master
       with:
         token: ${{ secrets.OKTETO_TOKEN }}
-        tag: registry.cloud.okteto.net/actions-rberrelleza/hello-world:${{ github.sha }}
 
-    - name: Get Kubeconfig
+    - name: Activate Namespace
       uses: okteto/actions/namespace@master
-      id: namespace
       with:
-        token: ${{ secrets.OKTETO_TOKEN }}
-        namespace: actions-rberrelleza
+        namespace: rberrelleza
     
-    - name: Deploy and Wait
+    - name: Deploy App
       uses: okteto/actions/deploy@master
-      env:
-        KUBECONFIG: ${{ steps.namespace.outputs.kubeconfig }}  
       with:
-        namespace: actions-rberrelleza
-        manifest: k8s.yml
-        tag: registry.cloud.okteto.net/actions-rberrelleza/hello-world:${{ github.sha }}
-        waitOn: deployment/hello-world
+        namespace: rberrelleza
+    
+    - name: Push
+      uses: okteto/actions/push@master
+      with:
+        namespace: rberrelleza
+     
+    - name: Sleep for 30 seconds
+      uses: jakejarvis/wait-action@master
+      with:
+        time: '30s'
     
     - name: Verify
       uses: srt32/uptime@master
       with:
-        url-to-hit: "https://hello-world-actions-rberrelleza.cloud.okteto.net"
+        url-to-hit: "https://hello-actions-rberrelleza.cloud.okteto.net"
         expected-statuses: "200"
         

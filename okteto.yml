@@ -1,0 +1,4 @@
+name: hello-actions
+image: okteto/golang:1
+command:
+- bash
