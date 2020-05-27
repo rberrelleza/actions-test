@@ -29,12 +29,12 @@ jobs:
         namespace: rberrelleza
      
     - name: Sleep for 30 seconds
-      uses: jakejarvis/wait-action@master
+      uses: jakejarvis/wait-action@v0.1.0
       with:
         time: '30s'
     
     - name: Verify
-      uses: srt32/uptime@master
+      uses: srt32/uptime@v0.2
       with:
         url-to-hit: "https://hello-actions-rberrelleza.cloud.okteto.net"
         expected-statuses: "200"
