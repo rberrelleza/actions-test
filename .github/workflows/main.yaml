@@ -8,22 +8,23 @@ jobs:
       uses: actions/checkout@master
     
     - name: Login
-      uses: okteto/actions/login@master
+      uses: okteto/login@master
       with:
         token: ${{ secrets.OKTETO_TOKEN }}
 
     - name: Activate Namespace
-      uses: okteto/actions/namespace@master
+      uses: okteto/namespace@master
       with:
         namespace: rberrelleza
     
     - name: Deploy App
-      uses: okteto/actions/deploy@master
+      uses: okteto/apply@master
       with:
         namespace: rberrelleza
+        manifest: k8s.yml
     
     - name: Push
-      uses: okteto/actions/push@master
+      uses: okteto/push@master
       with:
         namespace: rberrelleza
      
@@ -37,4 +38,3 @@ jobs:
       with:
         url-to-hit: "https://hello-actions-rberrelleza.cloud.okteto.net"
         expected-statuses: "200"
-        
