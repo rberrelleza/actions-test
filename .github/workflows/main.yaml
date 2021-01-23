@@ -17,17 +17,11 @@ jobs:
       with:
         namespace: rberrelleza
     
-    - name: Deploy App
-      uses: okteto/apply@master
+    - name: Deploy Pipeline
+      uses: okteto/pipeline@master
       with:
-        namespace: rberrelleza
-        manifest: k8s.yml
+        name: test-pipeline
     
-    - name: Push
-      uses: okteto/push@master
-      with:
-        namespace: rberrelleza
-     
     - name: Sleep for 30 seconds
       uses: jakejarvis/wait-action@v0.1.0
       with:
@@ -38,3 +32,8 @@ jobs:
       with:
         url-to-hit: "https://hello-actions-rberrelleza.cloud.okteto.net"
         expected-statuses: "200"
+    
+    - name: Destroy Pipeline
+      uses: okteto/destroy-pipeline@master
+      with:
+        name: test-pipeline

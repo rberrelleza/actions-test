@@ -1,0 +1,3 @@
+deploy:
+  - kubectl apply -f k8s.yml
+  - kubectl rollout restart deployment/hello-actions
