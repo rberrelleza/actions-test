@@ -23,6 +23,7 @@ jobs:
       uses: okteto/pipeline@master
       with:
         name: test-pipeline
+        timeout: 10m
     
     - name: Sleep for 30 seconds
       uses: jakejarvis/wait-action@v0.1.0
